@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>漢字</title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.css">
+</head>
+<body>
+<div class="container">
+    <form id="form">
+        <input type="text" name="word" value="飲食吸菸">
+        <button type="submit">Show</button>
+    </form>
+    <table class="table">
+        <thead>
+            <tr>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+<script>
+var langs = ["zh-TW", "zh-cn", "zh-hk", "ja", "ko", "vi"];
+
+if (location.hash) {
+    $('[name="word"]').val(decodeURIComponent(location.hash.replace('#', '')));
+}
+
+$('#form').submit(function(e){
+    e.preventDefault();
+    var word = $('[name="word"]').val();
+    location.hash = word;
+    $('thead tr').html('');
+    $('tbody').html('');
+
+    for (var i = 0; i < langs.length; i ++) {
+        $('thead tr').append($('<th></th>').text(langs[i]));
+    }
+
+    for (var c = 0; c < word.length; c ++) {
+        var tr_dom = $('<tr></tr>');
+        for (var i = 0; i < langs.length; i ++) {
+            tr_dom.append($('<td></td>').attr('lang', langs[i]).css('font-size', '50px').text(word.substr(c, 1)));
+        }
+        $('tbody').append(tr_dom);
+    }
+}).submit();
+</script>
+</body>
+</html>
